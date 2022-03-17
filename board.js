@@ -157,10 +157,10 @@ class Board {
 
     evalTillEnd(n) {
         let newBoard = this.copyBoard();
-        let winner = newBoard.checkWinner();
         let wins = { 'X': 0, 'O': 0, 'D': 0 };
         for (let i = 0; i < n; i++) {
-            while (winner.winner == '') {
+            newBoard = this.copyBoard();
+            while (newBoard.checkWinner().winner == '') {
                 let randomX = Math.floor(Math.random() * Board.width);
                 let randomY = Math.floor(Math.random() * Board.height);
                 while (newBoard.getBoard(randomX, randomY) != ' ') {
@@ -168,14 +168,17 @@ class Board {
                     randomY = Math.floor(Math.random() * Board.height);
                 }
                 newBoard.setBoard(randomX, randomY, newBoard.curPlayer);
-                winner = newBoard.checkWinner();
                 newBoard.changePlayer();
             }
-            wins[winner.winner]++;
+            wins[newBoard.checkWinner().winner]++;
         }
         return wins;
     }
 
+    /**
+     * 
+     * @returns {Object.<string, Board>}
+     */
     getAllNextStates() {
         let nextStates = {};
         for (let i = 0; i < Board.width; i++) {

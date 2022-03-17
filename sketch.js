@@ -4,7 +4,7 @@
  * @type Board
  */
 let board;
-let AI = 'X';
+let AI = 'O';
 function preload() {
 
 }
@@ -16,7 +16,6 @@ function setup() {
     Board.gridHeight = height / Board.height;
 
     board = new Board('X');
-    AIMakesMove();
 }
 
 function draw() {
@@ -48,14 +47,16 @@ function AIMakesMove() {
     let nextStates = board.getAllNextStates();
     let allMoves = Object.keys(nextStates);
     for (let i = 0; i < allMoves.length; i++) {
-        let totalIter = 1000;
+        let totalIter = 10000;
         let nextState = nextStates[allMoves[i]];
         let wins = nextState.evalTillEnd(totalIter);
-        let score = wins[board.curPlayer] / totalIter;
+        let score = (wins[board.curPlayer] / totalIter) - (wins[board.curPlayer == 'X' ? 'O' : 'X'] / totalIter);
         if (score > bestMove.score) {
             bestMove = { score: score, move: allMoves[i].split(',').map(Number) };
         }
+        console.log(allMoves[i], wins);
     }
+    console.log("-------------------------");
     board.setBoard(bestMove.move[0], bestMove.move[1], board.curPlayer);
     board.changePlayer();
 }
