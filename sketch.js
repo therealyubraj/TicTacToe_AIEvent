@@ -21,12 +21,11 @@ function setup() {
 function draw() {
     background(255);
     board.drawBoard();
+    if (board.checkWinner().winner != '') {
+        noLoop();
+    }
     if (board.curPlayer == AI) {
         AIMakesMove();
-    }
-    if (board.checkWinner().winner != '') {
-        board.drawBoard();
-        noLoop();
     }
 }
 
