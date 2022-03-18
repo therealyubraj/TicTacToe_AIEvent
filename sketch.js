@@ -25,7 +25,6 @@ function draw() {
         AIMakesMove();
     }
     if (board.checkWinner().winner != '') {
-        board.drawBoard();
         noLoop();
     }
 }

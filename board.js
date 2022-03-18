@@ -80,13 +80,6 @@ class Board {
             y2: 0
         };
 
-        //check for draw by checking if all spaces are filled
-        let draw = this.board.find(x => x == ' ') == undefined;
-        if (draw) {
-            winnerObj.winner = 'D';
-            return winnerObj;
-        }
-
 
         //horizontal check for win
         for (let i = 0; i < Board.height; i++) {
@@ -148,6 +141,13 @@ class Board {
             return winnerObj;
         }
 
+        //check for draw by checking if all spaces are filled
+        let draw = this.board.find(x => x == ' ') == undefined;
+        if (draw) {
+            winnerObj.winner = 'D';
+            return winnerObj;
+        }
+        
         return winnerObj;
     }
 
