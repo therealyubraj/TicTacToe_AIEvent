@@ -5,6 +5,7 @@
  */
 let board;
 let AI = 'O';
+let AIthinking = false;
 function preload() {
 
 }
@@ -31,17 +32,19 @@ function draw() {
 
 function mousePressed() {
     //check if mouse is in the board area
-    if (mouseX < width && mouseY < height && mouseX >= 0 && mouseY >= 0 && board.curPlayer != AI) {
+    if (mouseX < width && mouseY < height && mouseX >= 0 && mouseY >= 0 && board.curPlayer != AI && !AIthinking) {
         let x = Math.floor(mouseX / (width / 3));
         let y = Math.floor(mouseY / (width / 3));
-        if (board.getBoard(x, y) == ' ' && board.curPlayer != AI) { }
-        board.setBoard(x, y, board.curPlayer);
-        board.changePlayer();
+        if (board.getBoard(x, y) == ' ' && board.curPlayer != AI) {
+            board.setBoard(x, y, board.curPlayer);
+            board.changePlayer();
+        }
     }
 }
 
 function AIMakesMove() {
     //find best move
+    AIthinking = true;
     let bestMove = { score: -Infinity, move: [-1, -1] };
     let nextStates = board.getAllNextStates();
     let allMoves = Object.keys(nextStates);
@@ -58,4 +61,5 @@ function AIMakesMove() {
     console.log("-------------------------");
     board.setBoard(bestMove.move[0], bestMove.move[1], board.curPlayer);
     board.changePlayer();
+    AIthinking = false;
 }
