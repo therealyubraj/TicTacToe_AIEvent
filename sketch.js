@@ -32,7 +32,7 @@ function draw() {
 
 function mousePressed() {
     //check if mouse is in the board area
-    if (mouseX < width && mouseY < height && mouseX >= 0 && mouseY >= 0) {
+    if (mouseX < width && mouseY < height && mouseX >= 0 && mouseY >= 0 && board.curPlayer != AI) {
         let x = Math.floor(mouseX / (width / 3));
         let y = Math.floor(mouseY / (width / 3));
         if (board.getBoard(x, y) == ' ' && board.curPlayer != AI) { }
