@@ -4,11 +4,8 @@
  * @type Board
  */
 let board;
-let AI = 'O';
+let AI = 'O', human = AI == 'X' ? 'O' : 'X';
 let AIthinking = false;
-function preload() {
-
-}
 
 function setup() {
     createCanvas(600, 600);
@@ -16,11 +13,11 @@ function setup() {
     Board.gridWidth = width / Board.width;
     Board.gridHeight = height / Board.height;
 
-    board = new Board('X');
+    board = new Board(human);
 }
 
 function draw() {
-    background(255);
+    background(150);
     board.drawBoard();
     if (board.checkWinner().winner != '') {
         noLoop();
@@ -36,6 +33,7 @@ function mousePressed() {
         let x = Math.floor(mouseX / (width / 3));
         let y = Math.floor(mouseY / (width / 3));
         if (board.getBoard(x, y) == ' ' && board.curPlayer != AI) {
+            //if on valid square draw appropriate symbol
             board.setBoard(x, y, board.curPlayer);
             board.changePlayer();
         }
@@ -52,14 +50,19 @@ function AIMakesMove() {
         let totalIter = 10000;
         let nextState = nextStates[allMoves[i]];
         let wins = nextState.evalTillEnd(totalIter);
-        let score = (wins[board.curPlayer] / totalIter) - (wins[board.curPlayer == 'X' ? 'O' : 'X'] / totalIter);
+        let score = (wins[AI] / totalIter) ** 2 - (wins[human] / totalIter) + (wins['D'] / totalIter);
         if (score > bestMove.score) {
             bestMove = { score: score, move: allMoves[i].split(',').map(Number) };
         }
-        console.log(allMoves[i], wins);
+        console.log(allMoves[i], wins, score);
     }
     console.log("-------------------------");
     board.setBoard(bestMove.move[0], bestMove.move[1], board.curPlayer);
     board.changePlayer();
     AIthinking = false;
+}
+
+function resetAll() {
+    board = new Board(human);
+    loop();
 }

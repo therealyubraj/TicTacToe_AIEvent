@@ -52,12 +52,14 @@ class Board {
                 let x = xy.x * Board.gridWidth, y = xy.y * Board.gridHeight;
 
                 if (this.board[i] == 'X') {
+                    stroke(0, 255, 0);
                     let gridEndX = x + Board.gridWidth, gridEndY = y + Board.gridHeight;
-                    line(x, y, gridEndX, gridEndY);
-                    line(x, gridEndY, gridEndX, y);
+                    line(x + 30, y + 30, gridEndX - 30, gridEndY - 30);
+                    line(x + 30, gridEndY - 30, gridEndX - 30, y + 30);
                 } else {
+                    stroke(0, 120, 255);
                     let gridCenterX = x + (width / Board.width / 2), gridCenterY = y + (height / Board.height / 2);
-                    circle(gridCenterX, gridCenterY, Board.gridWidth);
+                    circle(gridCenterX, gridCenterY, Board.gridWidth - 30);
                 }
             }
         }
@@ -65,8 +67,8 @@ class Board {
         //check for winner and draw line if there is one
         let winner = this.checkWinner();
         if (winner.winner != '') {
-            strokeWeight(6);
-            stroke(255, 0, 0);
+            strokeWeight(3);
+            stroke(255, 255, 0);
             line(winner.x1, winner.y1, winner.x2, winner.y2);
         }
     }
@@ -147,7 +149,7 @@ class Board {
             winnerObj.winner = 'D';
             return winnerObj;
         }
-        
+
         return winnerObj;
     }
 
