@@ -50,7 +50,7 @@ function AIMakesMove() {
         let totalIter = 10000;
         let nextState = nextStates[allMoves[i]];
         let wins = nextState.evalTillEnd(totalIter);
-        let score = (wins[AI] / totalIter) ** 2 - (wins[human] / totalIter) + (wins['D'] / totalIter);
+        let score = (wins[AI] / totalIter) - (wins[human] / totalIter) + (wins['D'] / totalIter);
         if (score > bestMove.score) {
             bestMove = { score: score, move: allMoves[i].split(',').map(Number) };
         }
