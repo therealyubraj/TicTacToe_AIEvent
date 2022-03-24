@@ -11,7 +11,7 @@ let AIthinking = false;
  */
 let timer;
 
-let totalGamesPlayed = 0, curStatus = 'Human Turn', humanWon = 0;
+let totalGamesPlayed = 0, curStatus = 'Human Turn', won = 0, loss = 0, ties = 0;
 
 function setup() {
     createCanvas(600, 600);
@@ -30,10 +30,12 @@ function draw() {
     if (board.checkWinner().winner != '') {
         if (board.checkWinner().winner == human) {
             curStatus = 'Human Won!';
-            humanWon++;
+            won++;
         } else if (board.checkWinner().winner == AI) {
             curStatus = 'AI Won!';
+            loss++;
         } else {
+            ties++;
             curStatus = 'Draw!!!!';
         }
         totalGamesPlayed++;
@@ -99,7 +101,10 @@ function resetAll() {
 }
 
 function updateAllText() {
-    document.getElementById("winnings").innerHTML = humanWon + '/' + totalGamesPlayed;
+    document.getElementById("wins").innerHTML = won;
+    document.getElementById("losses").innerHTML = loss;
+    document.getElementById("ties").innerHTML = ties;
+    document.getElementById("score").innerHTML = won * 2 - loss * 2;
     document.getElementById("timer").innerHTML = timer.time + '/' + timer.duration;
     document.getElementById("gameStatus").innerHTML = curStatus;
 }
