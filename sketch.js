@@ -26,6 +26,7 @@ function setup() {
 function draw() {
     background(150);
     board.drawBoard();
+    curStatus = 'Playing!!';
     if (board.checkWinner().winner != '') {
         if (board.checkWinner().winner == human) {
             curStatus = 'Human Won!';
@@ -44,10 +45,11 @@ function draw() {
         timer.reset();
         AIMakesMove();
     } else if (timer.started == -999) {
-        curStatus = 'Timer Started for human';
         timer.start();
     } else if (timer.done) {
         curStatus = 'Human time ran out. I won.';
+        totalGamesPlayed++;
+        updateAllText();
         noLoop();
     }
     updateAllText();

@@ -26,6 +26,7 @@ class Timer {
         this.time = 0;
         this.started = -999;
         this.done = false;
+        clearInterval(this.interval);
         this.interval = undefined;
     }
 }
