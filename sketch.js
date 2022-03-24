@@ -6,6 +6,12 @@
 let board;
 let AI = 'O', human = AI == 'X' ? 'O' : 'X';
 let AIthinking = false;
+/**
+ * @type Timer
+ */
+let timer;
+
+let totalGamesPlayed = 0, curStatus = 'Human Turn', humanWon = 0;
 
 function setup() {
     createCanvas(600, 600);
@@ -14,17 +20,37 @@ function setup() {
     Board.gridHeight = height / Board.height;
 
     board = new Board(human);
+    timer = new Timer(20);
 }
 
 function draw() {
     background(150);
     board.drawBoard();
     if (board.checkWinner().winner != '') {
+        if (board.checkWinner().winner == human) {
+            curStatus = 'Human Won!';
+            humanWon++;
+        } else if (board.checkWinner().winner == AI) {
+            curStatus = 'AI Won!';
+        } else {
+            curStatus = 'Draw!!!!';
+        }
+        totalGamesPlayed++;
+        updateAllText();
         noLoop();
     }
-    if (board.curPlayer == AI) {
+    else if (board.curPlayer == AI) {
+        timer.stop();
+        timer.reset();
         AIMakesMove();
+    } else if (timer.started == -999) {
+        curStatus = 'Timer Started for human';
+        timer.start();
+    } else if (timer.done) {
+        curStatus = 'Human time ran out. I won.';
+        noLoop();
     }
+    updateAllText();
 }
 
 function mousePressed() {
@@ -43,6 +69,8 @@ function mousePressed() {
 function AIMakesMove() {
     //find best move
     AIthinking = true;
+    curStatus = 'AI Thinking';
+    updateAllText();
     let bestMove = { score: -Infinity, move: [-1, -1] };
     let nextStates = board.getAllNextStates();
     let allMoves = Object.keys(nextStates);
@@ -64,5 +92,12 @@ function AIMakesMove() {
 
 function resetAll() {
     board = new Board(human);
+    timer.reset();
     loop();
+}
+
+function updateAllText() {
+    document.getElementById("winnings").innerHTML = humanWon + '/' + totalGamesPlayed;
+    document.getElementById("timer").innerHTML = timer.time + '/' + timer.duration;
+    document.getElementById("gameStatus").innerHTML = curStatus;
 }

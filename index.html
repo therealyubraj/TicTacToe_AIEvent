@@ -12,6 +12,7 @@
 	<script src="libraries/p5.dom.js"></script>
 	<script src="libraries/p5.sound.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="timer.js"></script>
     <script src="board.js"></script>
     <script src="sketch.js"></script>
 
@@ -33,12 +34,24 @@
             background-color: aqua;
             margin: auto;
         }
+
+        .gameInfo {
+            font-size: 30px;
+        }
     </style>
 </head>
 
 <body>
     <div style="margin:15px;margin-left: 250px;width:fit-content;height:fit-content;">
         <button id="resetButton" onclick="resetAll()">Reset Board</button>
+    </div>
+
+    <div class="gameInfo">
+        Games won by human: <span id="winnings">0/0</span>
+        <br>
+        Timer: <span id="timer">0</span>
+        <br>
+        Status: <span id="gameStatus">Won</span>
     </div>
 </body>
 
