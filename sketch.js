@@ -11,7 +11,7 @@ let AIthinking = false;
  */
 let timer;
 
-let totalGamesPlayed = 0, curStatus = 'Human Turn', won = 0, loss = 0, ties = 0;
+let totalGamesPlayed = 0, curStatus = 'Human Turn', won = 0, loss = 0, timeouts = 0, ties = 0;
 
 function setup() {
     createCanvas(600, 600);
@@ -20,7 +20,7 @@ function setup() {
     Board.gridHeight = height / Board.height;
 
     board = new Board(human);
-    timer = new Timer(20);
+    timer = new Timer(5);
 }
 
 function draw() {
@@ -50,6 +50,7 @@ function draw() {
         timer.start();
     } else if (timer.done) {
         curStatus = 'Human time ran out. I won.';
+        timeouts++;
         totalGamesPlayed++;
         updateAllText();
         noLoop();
@@ -86,9 +87,7 @@ function AIMakesMove() {
         if (score > bestMove.score) {
             bestMove = { score: score, move: allMoves[i].split(',').map(Number) };
         }
-        console.log(allMoves[i], wins, score);
     }
-    console.log("-------------------------");
     board.setBoard(bestMove.move[0], bestMove.move[1], board.curPlayer);
     board.changePlayer();
     AIthinking = false;
@@ -104,7 +103,7 @@ function updateAllText() {
     document.getElementById("wins").innerHTML = won;
     document.getElementById("losses").innerHTML = loss;
     document.getElementById("ties").innerHTML = ties;
-    document.getElementById("score").innerHTML = won * 2 - loss * 2;
+    document.getElementById("timeouts").innerHTML = timeouts;
     document.getElementById("timer").innerHTML = timer.time + '/' + timer.duration;
     document.getElementById("gameStatus").innerHTML = curStatus;
 }

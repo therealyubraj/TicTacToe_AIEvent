@@ -6,7 +6,6 @@ class Timer {
     }
 
     start() {
-        console.log("Timer started");
         this.started = millis();
         this.interval = setInterval(() => {
             this.time++;
@@ -17,7 +16,6 @@ class Timer {
     }
 
     stop() {
-        console.log("Timer stopped");
         this.done = true;
         clearInterval(this.interval);
     }
