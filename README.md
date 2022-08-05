@@ -1,6 +1,6 @@
 # TicTacToe_AIEvent
  
-Tic tac toe AI with simple algorithm
+Tic tac toe AI with plain Monte Carlo algorithm
 
 Algorithm:
 Get all the possible states from this state <br>
